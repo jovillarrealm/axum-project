@@ -2,12 +2,21 @@
 name = "axum-project"
 version = "0.1.0"
 edition = "2021"
-publish = false
+authors = ["Jorge AVM <javillarrm@eafit.edu.co>"]
+publish = true
+description = "Small project to get acquainted with the tokio ecosystem"
+repository = "https://github.com/jovillarrealm/axum-project"
+
+[package.metadata.wix]
+upgrade-guid = "F00531ED-0D7D-47FD-A033-F5CA9EBDE6B9"
+path-guid = "54BC13AE-BC14-4073-A8D8-D331D4F12A3B"
+license = false
+eula = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = "0.7.1"
+axum = "0.7.2"
 minijinja = { version = "1.0.10", features = ["builtins"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0.68"
@@ -19,4 +28,22 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 mongodb = "2.1"
 bson = { version = "2", features = ["chrono-0_4"] } # Needed for using chrono datetime in doc
 chrono = "0.4" # Used for setting DateTimes
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+# Config for 'cargo dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.6.2"
+# CI backends to support
+ci = ["github"]
+# The installers to generate for each app
+installers = ["powershell", "msi"]
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = ["x86_64-unknown-linux-gnu", "aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-pc-windows-msvc"]
+# Publish jobs to run in CI
+pr-run-mode = "plan"
 
