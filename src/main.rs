@@ -35,14 +35,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
         ClientOptions::parse_with_resolver_config(&client_uri, ResolverConfig::cloudflare())
             .await?;
     let client = Client::with_options(options)?;
+    dbg!(client);
     // build our application with a route
     let app = Router::new()
         // `GET /` goes to `root`
         .route("/", get(root))
-        .route("/template", get(template))
+        //.route("/usertemp", get(template))
         .route("/profile/:profile_name", get(get_profile))
         .route("/hello", get(hello))
-        .route("/getusers", get(get_users))
+        //.route("/getusers", get(get_users))
         // `POST /users` goes to `create_user`
         .route("/users", post(create_user));
 
@@ -81,7 +82,6 @@ async fn get_profile(Path(profile_name): Path<String>) -> Html<String> {
 async fn root() -> Html<String> {
     let mut x = String::from("helo");
     x = x.replace('l', "ll");
-    dbg!(x);
     Html(x)
 }
 
@@ -107,16 +107,17 @@ async fn create_user(
     (StatusCode::CREATED, Json(user))
 }
 
-
+/*
 async get_users(client) -> impl IntoResponse {
     // Print the databases in our MongoDB cluster:
-   println!("Databases:");
-   for name in client.list_database_names(None, None).await? {
-      println!("- {}", name);
-   }
-
-   
+    println!("Databases:");
+    for name in client.list_database_names(None, None).await? {
+        println!("- {}", name);
+    }
+    
+    
 }
+*/
 
 // the input to our `create_user` handler
 #[derive(Deserialize)]
