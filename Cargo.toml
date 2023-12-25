@@ -1,5 +1,5 @@
 [package]
-name = "axum-project"
+name = "toy-axum"
 version = "0.1.0"
 edition = "2021"
 authors = ["Jorge AVM <javillarrm@eafit.edu.co>"]
