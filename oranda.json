@@ -1,5 +1,5 @@
 {
     "build": {
-      "path_prefix": "public"
+      "path_prefix": "toy-axum"
     }
 }
