@@ -67,7 +67,7 @@ jobs:
       - name: Install and run oranda
         run: |
           curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/oranda/releases/latest/download/oranda-installer.sh | sh
-          cd https://github.com/jovillarrealm/toy-axum
+          cd https://jovillarrealm.github.io/toy-axum/
           oranda build
       
       - name: Prepare HTML for link checking
