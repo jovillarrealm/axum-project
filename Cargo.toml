@@ -1,9 +1,9 @@
 [package]
 name = "toy-axum"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["Jorge AVM <javillarrm@eafit.edu.co>"]
-publish = true
+publish = false
 description = "Small project to get acquainted with the tokio ecosystem"
 repository = "https://github.com/jovillarrealm/toy-axum"
 
@@ -16,7 +16,7 @@ eula = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-axum = "0.7.2"
+axum = "0.7.4"
 minijinja = { version = "1.0.10", features = ["builtins"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0.68"
@@ -29,6 +29,12 @@ mongodb = "2.1"
 bson = { version = "2", features = ["chrono-0_4"] } # Needed for using chrono datetime in doc
 chrono = "0.4" # Used for setting DateTimes
 futures-util = "0.3.30"
+hyper = "1.1.0"
+reqwest = { version = "0.11.23", features = ["json"] }
+#polars = {version = "0.35.4", features = ["lazy", "temporal", "streaming", "performant", "cse", "serde", "serde-lazy", "json", "ipc", "decompress", "fmt"] }
+#polars = {version = "0.35.4", features = ["lazy", "temporal", "streaming", "json", "ipc", "fmt"] }
+polars = {version = "0.36.2", features = ["ipc", "fmt", "docs", "lazy", "streaming", "temporal"] }
+tower-http = { version = "0.5.0", features = ["fs"] }
 
 # The profile that 'cargo dist' will build with
 [profile.dist]
@@ -38,13 +44,15 @@ lto = "thin"
 # Config for 'cargo dist'
 [workspace.metadata.dist]
 # The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
-cargo-dist-version = "0.6.2"
+cargo-dist-version = "0.8.0"
 # CI backends to support
 ci = ["github"]
+# Whether to consider the binaries in a package for distribution (defaults true)
+dist = true
 # The installers to generate for each app
 installers = ["shell", "powershell", "msi"]
 # Target platforms to build apps for (Rust target-triple syntax)
-targets = ["x86_64-unknown-linux-gnu", "aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-pc-windows-msvc"]
+targets = ["x86_64-unknown-linux-gnu", "x86_64-pc-windows-msvc"]
 # Publish jobs to run in CI
 pr-run-mode = "upload"
 
