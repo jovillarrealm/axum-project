@@ -11,11 +11,11 @@ use serde::{Deserialize, Serialize};
 /// Extracts the user's name from url, mocks some orders related to that user and returns a html response from a jinja template
 pub async fn get_profile(Path(profile_name): Path<String>) -> Html<String> {
     let orders_example = vec![
-        Items {
+        Item {
             id: 1,
             name: "Article banana".into(),
         },
-        Items {
+        Item {
             id: 2,
             name: "Article apple".into(),
         },
@@ -45,22 +45,25 @@ pub async fn create_user(
     (StatusCode::CREATED, Json(user))
 }
 
-// the input to our `create_user` handler
+/// The input to our `create_user` handler.
 #[derive(Deserialize)]
 pub struct CreateUser {
+    /// owned string 
     username: String,
 }
 
-// the output to our `create_user` handler
+/// The output to our `create_user` handler.
 #[derive(Serialize)]
 pub struct User {
+    /// db should use something else
     id: u64,
+    /// If unchecked, this is what will be used by most operations which is a shame
     username: String,
 }
 
 /// Item data, honestly it could be called Item
 #[derive(Debug, Serialize)]
-pub struct Items {
+pub struct Item {
     id: i32,
     name: String,
 }
@@ -69,5 +72,5 @@ pub struct Items {
 #[derive(Debug, Serialize)]
 pub struct Profile {
     full_name: String,
-    items: Vec<Items>,
+    items: Vec<Item>,
 }

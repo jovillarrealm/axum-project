@@ -6,6 +6,7 @@ use axum::{extract::Path, http::StatusCode, response::IntoResponse};
 use polars::prelude::*;
 use reqwest;
 
+/// This will try to download the cssv from med data from a given csv and transform it to an ipc arrow file.
 pub async fn update_file(Path(disease_name): Path<String>) -> impl IntoResponse {
     let (url, file_name) = get_path(disease_name)?;
     let csv_path = format!("csv/{}", file_name);
@@ -32,6 +33,8 @@ pub async fn update_file(Path(disease_name): Path<String>) -> impl IntoResponse 
     Ok(StatusCode::OK)
 }
 
+/// This will get the url and file name of the downloaded csv.
+/// One should probably be ignored but its fine.
 fn get_path(disease_name: String) -> Result<(&'static str, &'static str), StatusCode> {
     let d_id: HashMap<_, _> = HashMap::from([
         (

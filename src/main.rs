@@ -51,7 +51,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-/// basic handler that responds with a Html
+/// Basic handler that responds with a Html
+/// 
 /// This should build docs now.
 async fn root() -> Html<String> {
     let mut x = String::from("helo");
@@ -59,7 +60,7 @@ async fn root() -> Html<String> {
     Html(x)
 }
 
-/// basic handler that responds with a static string
+/// Basic handler that responds with a static string
 async fn hello() -> &'static str {
     "Hello, World!"
 }
@@ -70,6 +71,7 @@ async fn each() {
     assert_eq!(root().await.0, x);
 }
 
+/// Checks that all necessary files and directories are within the cwd
 fn fs_check() {
     Path::new("/ipc").try_exists().expect("/ipc not found");
     Path::new("/csv").try_exists().expect("/csv not ofund");
