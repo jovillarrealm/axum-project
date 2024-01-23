@@ -4,22 +4,23 @@
 //! cargo run -p toy-axum
 //! ```
 
-use std::error::Error;
+use std::{error::Error, path::Path};
 
 use axum::{
     response::Html,
     routing::{get, post},
     Router,
 };
-pub mod template;
+mod template;
 use tower_http::services::{ServeDir, ServeFile};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     // initialize tracing
     tracing_subscriber::fmt::init();
-    //println!("Requiere un secret.txt en cwd");
-    
+
+    fs_check();
+
     let app = Router::new()
         // `GET /` goes to `root`
         .route("/", get(root))
@@ -38,10 +39,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .route("/c_user", post(template::user_fn::create_user))
         .route("/users", get(template::db::get_mongo_users))
         .nest_service("/ipc", ServeDir::new("ipc"))
-        .route_service("/secret", ServeFile::new("csv/tmet-yeek.csv"))
-        //?esto no funciona??.nest_service("/csv", ServeDir::new("csv").fallback(ServeFile::new("csv/tmet-yeek.csv")))
-        
-        ;
+        .nest_service("/csv", ServeDir::new("csv"))
+        .route_service("/secret", ServeFile::new("csv/tmet-yeek.csv"));
     // run our app with hyper
     let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
         .await
@@ -69,4 +68,12 @@ async fn hello() -> &'static str {
 async fn each() {
     let x = Html("Hello, World!").0;
     assert_eq!(root().await.0, x);
+}
+
+fn fs_check() {
+    Path::new("/ipc").try_exists().expect("/ipc not found");
+    Path::new("/csv").try_exists().expect("/csv not ofund");
+    Path::new("secret.txt")
+        .try_exists()
+        .expect("secret.txt not found");
 }

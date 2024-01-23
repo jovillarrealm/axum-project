@@ -6,6 +6,7 @@ authors = ["Jorge AVM <javillarrm@eafit.edu.co>"]
 publish = false
 description = "Small project to get acquainted with the tokio ecosystem"
 repository = "https://github.com/jovillarrealm/toy-axum"
+license = "MIT"
 
 [package.metadata.wix]
 upgrade-guid = "F00531ED-0D7D-47FD-A033-F5CA9EBDE6B9"

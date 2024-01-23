@@ -1,15 +1,12 @@
-
+use super::user::PROFILE_TEMPLATE;
 use axum::{
     extract::Path,
     http::StatusCode,
     response::{Html, IntoResponse},
-    Json
+    Json,
 };
-use serde::{Deserialize, Serialize};
 use minijinja::render;
-use super::user::PROFILE_TEMPLATE;
-
-
+use serde::{Deserialize, Serialize};
 
 /// Extracts the user's name from url, mocks some orders related to that user and returns a html response from a jinja template
 pub async fn get_profile(Path(profile_name): Path<String>) -> Html<String> {
@@ -48,12 +45,6 @@ pub async fn create_user(
     (StatusCode::CREATED, Json(user))
 }
 
-
-
-
-
-
-
 // the input to our `create_user` handler
 #[derive(Deserialize)]
 pub struct CreateUser {
@@ -80,4 +71,3 @@ pub struct Profile {
     full_name: String,
     items: Vec<Items>,
 }
-
